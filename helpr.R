@@ -11,7 +11,7 @@ batch_read <- function(path, pattern, recursive = FALSE, read_fun, ...) {
   data
 }
 
-# Return value of variable name of interest that is also found in rows
+# Return value of variable of interest whose name is also found in rows
 # data:  Data frame
 # var:   Variable of interest in data frame
 match_col <- function(data, var) {
