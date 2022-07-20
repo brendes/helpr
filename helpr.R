@@ -17,3 +17,15 @@ batch_read <- function(path, pattern, recursive = FALSE, read_fun, ...) {
 match_col <- function(data, var) {
   sapply(1:nrow(data), function(i) data[i, data$var[i]])
 }
+
+# Convert a "horizontal" table into a "vertical" data frame.  Removes
+# blank rows from input data as well.  NOTE: However you load the
+# original horizontal table, be sure to make sure it has no header
+# defined, e.g., `read.delim(file, header = FALSE))`.
+verticalize <- function(data) {
+  data[!apply(data == "", 1, all), ]
+  vert <- as.data.frame(t(data), row.names = NULL)
+  names(vert) <- vert[1,]
+  row.names(vert) <- NULL
+  vert[-1,]
+}
