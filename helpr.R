@@ -29,3 +29,23 @@ verticalize <- function(data) {
   row.names(vert) <- NULL
   vert[-1,]
 }
+
+# Create a binary matrix based on intersecting values between two variables in a
+# data frame.  Can be used with R package UpSetR to create UpSet plots, for
+# example.
+#
+#  input:
+#    - data: data frame containing variables of interest
+#    - set_var: name of column representing sets to compare
+#    - intersect_var: name of column representing intersecting values
+#   output: data frame
+make_binary_matrix <- function(data, set_var, intersect_var) {
+  set_var <- as.character(substitute(set_var))
+  intersect_var <- as.character(substitute(intersect_var))
+  matrix_df <- data.frame(intersect_var = unique(data[[intersect_var]]))
+
+  for (column in unique(data[[set_var]])) {
+    matrix_df[[column]] <- as.integer(matrix_df$intersect_var %in% data[[intersect_var]][data[[set_var]] == column])
+  }
+  return(matrix_df)
+}
